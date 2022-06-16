@@ -7,7 +7,7 @@ const handleCastErrorDB = (err) => {
 
 const handleDuplicateFieldsDB = (err) => {
   const value = err.errmsg.match(/(["'])(\\?.)*?\1/)[0];
-  console.log(value);
+  // console.log(value);
   const message = `Duplicate field value: ${value}. Please use an other value!`;
   return new AppError(message, 400);
 };
@@ -36,7 +36,7 @@ const sendErrorDev = (err, req, res) => {
     });
   }
   // B) RENDER WEBSITE
-  console.log("* * * ERROR * * *", err);
+  console.error("* * * ERROR * * *", err);
   return res.status(err.statusCode).render("error", {
     title: "Something went wrong!",
     msg: err.message,
@@ -55,7 +55,7 @@ const sendErrorProd = (err, req, res) => {
     }
     // b) Programming or other unknown/unexpected error: don't leak error details
     // 1) Log error
-    console.log("* * * ERROR * * *", err);
+    console.error("* * * ERROR * * *", err);
 
     // 2) Send generic message
     return res.status(500).json({
@@ -73,7 +73,7 @@ const sendErrorProd = (err, req, res) => {
   }
   // b) Programming or other unknown/unexpected error: don't leak error details
   // 1) Log error
-  console.log("* * * ERROR * * *", err);
+  console.error("* * * ERROR * * *", err);
 
   // 2) Send generic message
   return res.status(err.statusCode).render("error", {
